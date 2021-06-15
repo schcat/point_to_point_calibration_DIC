@@ -1,0 +1,12 @@
+%width = 1616;
+%height = 1077;
+width = 1024;
+height = 1024;
+pad = 20;
+width_expand = width + pad*2;
+height_expand = height + pad*2;
+I=imread('image/ori_whole/tif/simulate_speckle_whole_1.tif');
+%I=imread('image/simulate_wrap.tif');
+II = [zeros(pad,width_expand);zeros(height,pad),I,zeros(height,pad);zeros(pad,width_expand)];
+imwrite(II,'image/ori_whole/tif_expand/simulate_speckle_whole_1_expand.tif');
+%imwrite(II,'image/simulate_wrap_expand.tif');

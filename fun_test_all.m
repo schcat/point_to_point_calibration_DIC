@@ -1,0 +1,10 @@
+fun_test(['results/train_2_6/para_temp_1.txt']);
+fun_test(['results/train_2_6/para_temp_2.txt']);
+fun_test(['results/train_2_6/para_temp_3.txt']);
+fun_test(['results/train_2_6/para_temp_4.txt']);
+fun_test(['results/train_2_6/para_temp_5.txt']);
+fun_test(['results/train_2_6/para_temp_6.txt']);
+fun_test(['results/train_2_6/para_temp_7.txt']);
+fun_test(['results/train_2_6/para_temp_8.txt']);
+fun_test(['results/train_2_6/para_temp_9.txt']);
+fun_test(['results/train_2_6/para_temp_10.txt']);
