@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ncorr_2D_matlab
 
 This is the offical repo for:
@@ -31,3 +32,9 @@ For convienience, a direct link to the manual is available [here](http://www.nco
 [![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/cXfeiBXjN18/0.jpg)](http://www.youtube.com/watch?v=cXfeiBXjN18)
 
 
+=======
+# point_to_point_calibration_DIC
+Convenient way of point to point distortion calibration.
+
+All code of DIC calculation in our project is from Justin Blaber's Ncorr in http://www.ncorr.com/index.php/contact
+>>>>>>> b1dfb080503086da9fb0a483f47082d1cfec75e3
