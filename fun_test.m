@@ -49,7 +49,7 @@ for k=1:1:n
 end
 toc
 %DICï¿½ï¿½ï¿½ï¿½
-pathname = '../image/';
+pathname = '../image/train_2_2/';
 radius = 70; %DIC subset radius
 spacing = 0;
 % ï¿½ï¿½ï¿?ROIï¿½ï¿½padï¿½?±ä»¯ï¿½ï¿½ï¿½?µï¿½ï¿½ï¿½ncorr_auto_initseeds.mï¿½ï¿½ï¿½ï¿½ï¿?pad
@@ -57,7 +57,7 @@ parpool(20);
 mat_name = ['../result/train_2_2_70/speckle_map_test_'];
 parfor k=1:1:n
 tic
-    filename_ref = ['train_2_2/simulate_speckle_patent_proj_test_',num2str(k),'.png'];
+    filename_ref = ['simulate_speckle_patent_proj_test_',num2str(k),'.png'];
     filename_roi = ['ROI_proj_test_',num2str(k),'.png'];
     filename_cur = ['cali_',num2str(k),'.png'];
     displacements(k) = fun_dic(pathname, filename_ref, filename_roi ,filename_cur, radius, spacing, mat_name, k);
