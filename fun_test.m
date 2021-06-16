@@ -11,7 +11,7 @@ res_camera_w =1920;
 res_camera_h = 1080;
 n=20;
 
-if 1
+if 0
 
 R=[];
 for i=1:n               %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
@@ -67,7 +67,7 @@ end
 delete(gcp('nocreate'));
 end
 
-if 1 
+if 0 
 
 mean_map_u = zeros(res_camera_h,res_camera_w);
 mean_map_v = zeros(res_camera_h,res_camera_w);
@@ -127,7 +127,7 @@ load('../result/train_2_2_70/speckle_map_test_70.mat');
 
 end
 
-if 1
+if 0
 
 %����У��
 for k=1:1:n
@@ -165,7 +165,7 @@ end
 height_ref = 1000;
 width_ref = 1000;
 pad = 100;
-pathname = '../image/train_2_2/';
+pathname = '../image/';
 filename_ref = 'speckle_pattern_4000_pad_0111_20_15000_1000.png';
 filename_roi = 'ROI_1000_1000_100.png';
 radius = 70; %DIC subset radius
@@ -176,7 +176,7 @@ parpool(20);
 mat_name = ['../result/train_2_2_70/speckle_correct_'];
 parfor k=1:1:n
 tic
-    filename_cur = ['correct_',num2str(k),'.png'];
+    filename_cur = ['train_2_2/correct_',num2str(k),'.png'];
     displacements = fun_dic(pathname, filename_ref, filename_roi ,filename_cur, radius, spacing, mat_name, k);
 %    save(['results/ori_ref_mat/speckle_correct_',num2str(k),'.mat'],'displacements');
 toc
