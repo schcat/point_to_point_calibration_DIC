@@ -54,7 +54,7 @@ radius = 70; %DIC subset radius
 spacing = 0;
 % ï¿½ï¿½ï¿?ROIï¿½ï¿½padï¿½?±ä»¯ï¿½ï¿½ï¿½?µï¿½ï¿½ï¿½ncorr_auto_initseeds.mï¿½ï¿½ï¿½ï¿½ï¿?pad
 parpool(20);
-mat_name = ['../result/train_2_2_70/speckle_map_test_'];
+mat_name = ['../result/train_2_2_70_0065/speckle_map_test_'];
 parfor k=1:1:n
 tic
     filename_ref = ['simulate_speckle_patent_proj_test_',num2str(k),'.png'];
@@ -74,7 +74,7 @@ mean_map_v = zeros(res_camera_h,res_camera_w);
 plot_u = zeros(res_camera_h,res_camera_w,n);
 plot_v = zeros(res_camera_h,res_camera_w,n);
 for k = 1:1:n
-    str=strcat('../result/train_2_2_70/speckle_map_test_',num2str(k),'.mat');
+    str=strcat('../result/train_2_2_70_0065/speckle_map_test_',num2str(k),'.mat');
     load(str);
     plot_u(:,:,k) = displacements.plot_u;
     plot_v(:,:,k) = displacements.plot_v;
@@ -117,12 +117,12 @@ for v_loc = 1:1:res_camera_h
         count_sum = count_sum + count;
     end
 end
-save(['../result/train_2_2_70/speckle_map_test_70.mat'],'mean_map_u','mean_map_v');
+save(['../result/train_2_2_70_0065/speckle_map_test_70.mat'],'mean_map_u','mean_map_v');
 
 plot_u = zeros(res_camera_h,res_camera_w);
 plot_v = zeros(res_camera_h,res_camera_w);
 %pathname = 'image/ori_0315/';
-load('../result/train_2_2_70/speckle_map_test_70.mat');
+load('../result/train_2_2_70_0065/speckle_map_test_70.mat');
 %imshow(mean_map_u);
 
 end
@@ -165,7 +165,7 @@ end
 height_ref = 1000;
 width_ref = 1000;
 pad = 100;
-pathname = '../image/train_2_2/';
+pathname = '../image/';
 filename_ref = 'speckle_pattern_4000_pad_0111_20_15000_1000.png';
 filename_roi = 'ROI_1000_1000_100.png';
 radius = 70; %DIC subset radius
@@ -173,19 +173,19 @@ spacing = 0;
 % ���?ROI��pad�б仯���ǵ���ncorr_auto_initseeds.m�����?pad
 
 parpool(20);
-mat_name = ['../result/train_2_2_70/speckle_correct_'];
+mat_name = ['../result/train_2_2_70_0065/speckle_correct_'];
 parfor k=1:1:n
 tic
-    filename_cur = ['correct_',num2str(k),'.png'];
+    filename_cur = ['train_2_2/correct_',num2str(k),'.png'];
     displacements = fun_dic(pathname, filename_ref, filename_roi ,filename_cur, radius, spacing, mat_name, k);
 %    save(['results/ori_ref_mat/speckle_correct_',num2str(k),'.mat'],'displacements');
 toc
 end
 delete(gcp('nocreate'));
 
-fid = fopen('../result/train_2_2_70/speckle_correct.txt','w');
+fid = fopen('../result/train_2_2_70_0065/speckle_correct.txt','w');
 for k = 1:1:n
-    str=strcat('../result/train_2_2_70/speckle_correct_',num2str(k),'.mat');
+    str=strcat('../result/train_2_2_70_0065/speckle_correct_',num2str(k),'.mat');
     load(str);
     for v_loc = 200:100:800
         for u_loc = 200:100:800
@@ -202,7 +202,7 @@ fclose(fid);
 
 M=load('board.txt');       %��ȡ��������
 M=[M';ones(1,49)];
-m_all=load('../result/train_2_2_70/speckle_correct.txt');       %��ȡ�ؼ�������
+m_all=load('../result/train_2_2_70_0065/speckle_correct.txt');       %��ȡ�ؼ�������
 m_one=ones(3,49,n);
 for i=1:1:n
     m_temp = m_all((i-1)*49+1:i*49,:);
@@ -233,6 +233,7 @@ b=v(:,6);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                        ���·ֽ��ڲ�������                                            %                           
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+format long
 
 cy=(b(2)*b(4)-b(1)*b(5))/(b(1)*b(3)-b(2)^2);
 lamda=b(6)-(b(4)^2+(b(2)*b(4)-b(1)*b(5))/(b(1)*b(3)-b(2)^2)*(b(2)*b(4)-b(1)*b(5)))/b(1);
