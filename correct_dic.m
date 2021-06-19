@@ -33,64 +33,103 @@ point_ori = zeros(n*4,2);
 for i = 1:1:res_camera_h
     for j = 1:1:res_camera_w
 
-        u_bias = mean_map_u(i,j);
-        v_bias = mean_map_v(i,j);
+        u_bias_1 = mean_map_u(i,j);
+        v_bias_1 = mean_map_v(i,j);
 
-		if u_bias == 0 || v_bias == 0 || j + u_bias < 1 || i + v_bias < 1 || j + u_bias > 1920 || i + v_bias > 1080
-			uu = j;
-			vv = i;
+		if u_bias_1 == 0 || v_bias_1 == 0 || j + u_bias_1 < 1 || i + v_bias_1 < 1 || j + u_bias_1 > 1920 || i + v_bias_1 > 1080
+			uu_1 = j;
+			vv_1 = i;
         else 
-			uu = j + u_bias;
-			vv = i + v_bias;
-                
-%			value_1 = I(floor(vv),floor(uu));
-%			value_2 = I(floor(vv),ceil(uu));
-%			value_3 = I(ceil(vv),ceil(uu));
-%			value_4 = I(ceil(vv),floor(uu));
-%			result_1 = (ceil(vv) - vv) * value_1 + (vv - floor(vv)) * value_4;
-%			result_2 = (ceil(vv) - vv) * value_2 + (vv - floor(vv)) * value_3;
-%			result_value = (ceil(uu) - uu) * result_1 + (uu - floor(uu)) * result_2;
+			uu_1 = j + u_bias_1;
+			vv_1 = i + v_bias_1;
+
+        u_bias_2 = mean_map_u(i,j);
+        v_bias_2 = mean_map_v(i,j);
+
+		if u_bias_2 == 0 || v_bias_2 == 0 || j + u_bias_2 < 1 || i + v_bias_2 < 1 || j + u_bias_2 > 1920 || i + v_bias_2 > 1080
+			uu_2 = j;
+			vv_2 = i;
+        else 
+			uu_2 = j + u_bias_2;
+			vv_2 = i + v_bias_2;
 
 		for k=1:1:n*4
-			dist =  sqrt((point(k,1) - uu)^2 + (point(k,2) - vv)^2);
-			if dist < 3
-				if point(k,1) > uu && point(k,2) > vv % left top
-					if dist < container_dist_1(k)
-						container_coor_1(k,1) = uu;
-						container_coor_1(k,2) = vv;
-						container_ori_1(k,1) = j;
-						container_ori_1(k,2) = i;
-						container_dist_1(k) = dist;
+			if mod(k,4) == 1 || mod(k,4) == 2
+				dist =  sqrt((point(k,1) - uu_1)^2 + (point(k,2) - vv_1)^2);
+				if dist < 3
+					if point(k,1) > uu_1 && point(k,2) > vv_1 % left top
+						if dist < container_dist_1(k)
+							container_coor_1(k,1) = uu_1;
+							container_coor_1(k,2) = vv_1;
+							container_ori_1(k,1) = j;
+							container_ori_1(k,2) = i;
+							container_dist_1(k) = dist;
+						end
+					elseif point(k,1) < uu_1 && point(k,2) > vv_1 % right top
+						if dist < container_dist_2(k)
+							container_coor_2(k,1) = uu_1;
+							container_coor_2(k,2) = vv_1;
+							container_ori_2(k,1) = j;
+							container_ori_2(k,2) = i;
+							container_dist_2(k) = dist;
+						end
+					elseif point(k,1) < uu_1 && point(k,2) < vv_1 % right botton
+						if dist < container_dist_3(k)
+							container_coor_3(k,1) = uu_1;
+							container_coor_3(k,2) = vv_1;
+							container_ori_3(k,1) = j;
+							container_ori_3(k,2) = i;
+							container_dist_3(k) = dist;
+						end
+					elseif point(k,1) > uu_1 && point(k,2) < vv_1 % left botton
+						if dist < container_dist_4(k)
+							container_coor_4(k,1) = uu_1;
+							container_coor_4(k,2) = vv_1;
+							container_ori_4(k,1) = j;
+							container_ori_4(k,2) = i;
+							container_dist_4(k) = dist;
+						end
 					end
-				elseif point(k,1) < uu && point(k,2) > vv % right top
-					if dist < container_dist_2(k)
-						container_coor_2(k,1) = uu;
-						container_coor_2(k,2) = vv;
-						container_ori_2(k,1) = j;
-						container_ori_2(k,2) = i;
-						container_dist_2(k) = dist;
-					end
-				elseif point(k,1) < uu && point(k,2) < vv % right botton
-					if dist < container_dist_3(k)
-						container_coor_3(k,1) = uu;
-						container_coor_3(k,2) = vv;
-						container_ori_3(k,1) = j;
-						container_ori_3(k,2) = i;
-						container_dist_3(k) = dist;
-					end
-				elseif point(k,1) > uu && point(k,2) < vv % left botton
-					if dist < container_dist_4(k)
-						container_coor_4(k,1) = uu;
-						container_coor_4(k,2) = vv;
-						container_ori_4(k,1) = j;
-						container_ori_4(k,2) = i;
-						container_dist_4(k) = dist;
+				end
+			elseif mod(k,4) == 3 || mod(k,4) == 0
+				dist =  sqrt((point(k,1) - uu_2)^2 + (point(k,2) - vv_2)^2);
+				if dist < 3
+					if point(k,1) > uu_2 && point(k,2) > vv_2 % left top
+						if dist < container_dist_1(k)
+							container_coor_1(k,1) = uu_2;
+							container_coor_1(k,2) = vv_2;
+							container_ori_1(k,1) = j;
+							container_ori_1(k,2) = i;
+							container_dist_1(k) = dist;
+						end
+					elseif point(k,1) < uu_2 && point(k,2) > vv_2 % right top
+						if dist < container_dist_2(k)
+							container_coor_2(k,1) = uu_2;
+							container_coor_2(k,2) = vv_2;
+							container_ori_2(k,1) = j;
+							container_ori_2(k,2) = i;
+							container_dist_2(k) = dist;
+						end
+					elseif point(k,1) < uu_2 && point(k,2) < vv_2 % right botton
+						if dist < container_dist_3(k)
+							container_coor_3(k,1) = uu_2;
+							container_coor_3(k,2) = vv_2;
+							container_ori_3(k,1) = j;
+							container_ori_3(k,2) = i;
+							container_dist_3(k) = dist;
+						end
+					elseif point(k,1) > uu_2 && point(k,2) < vv_2 % left botton
+						if dist < container_dist_4(k)
+							container_coor_4(k,1) = uu_2;
+							container_coor_4(k,2) = vv_2;
+							container_ori_4(k,1) = j;
+							container_ori_4(k,2) = i;
+							container_dist_4(k) = dist;
+						end
 					end
 				end
 			end
 		end
-
-            
 	end
 end
 for k=1:1:n*4
