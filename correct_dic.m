@@ -1,9 +1,10 @@
 res_camera_w =1920;
 res_camera_h = 1080;
-n=20;
+n=57;
 point = zeros(n*4,2);
-load('../result/train_2_2_70/speckle_map_test_70.mat');
-point_file = load('~/cnn/implementation/point_distance/build/speckle_points_97.txt');
+load('../result/train_1_1/speckle_map_test_1.mat');
+load('../result/train_2_1/speckle_map_test_2.mat');
+point_file = load('~/cnn/implementation/point_distance/build/triangle_test_ori_97.txt');
 
 for i=1:n
     point(i*4-3,:) = point_file(i,1:2);
@@ -33,8 +34,8 @@ point_ori = zeros(n*4,2);
 for i = 1:1:res_camera_h
     for j = 1:1:res_camera_w
 
-        u_bias_1 = mean_map_u(i,j);
-        v_bias_1 = mean_map_v(i,j);
+        u_bias_1 = mean_map_u_1(i,j);
+        v_bias_1 = mean_map_v_1(i,j);
 
 		if u_bias_1 == 0 || v_bias_1 == 0 || j + u_bias_1 < 1 || i + v_bias_1 < 1 || j + u_bias_1 > 1920 || i + v_bias_1 > 1080
 			uu_1 = j;
@@ -42,9 +43,9 @@ for i = 1:1:res_camera_h
         else 
 			uu_1 = j + u_bias_1;
 			vv_1 = i + v_bias_1;
-
-        u_bias_2 = mean_map_u(i,j);
-        v_bias_2 = mean_map_v(i,j);
+		end
+        u_bias_2 = mean_map_u_2(i,j);
+        v_bias_2 = mean_map_v_2(i,j);
 
 		if u_bias_2 == 0 || v_bias_2 == 0 || j + u_bias_2 < 1 || i + v_bias_2 < 1 || j + u_bias_2 > 1920 || i + v_bias_2 > 1080
 			uu_2 = j;
@@ -52,13 +53,19 @@ for i = 1:1:res_camera_h
         else 
 			uu_2 = j + u_bias_2;
 			vv_2 = i + v_bias_2;
-
+		end
 		for k=1:1:n*4
 			if mod(k,4) == 1 || mod(k,4) == 2
 				dist =  sqrt((point(k,1) - uu_1)^2 + (point(k,2) - vv_1)^2);
-				if dist < 3
+				if dist < 5
 					if point(k,1) > uu_1 && point(k,2) > vv_1 % left top
 						if dist < container_dist_1(k)
+if k == 1
+	uu_1
+	vv_1
+	j
+	i
+end
 							container_coor_1(k,1) = uu_1;
 							container_coor_1(k,2) = vv_1;
 							container_ori_1(k,1) = j;
@@ -93,7 +100,7 @@ for i = 1:1:res_camera_h
 				end
 			elseif mod(k,4) == 3 || mod(k,4) == 0
 				dist =  sqrt((point(k,1) - uu_2)^2 + (point(k,2) - vv_2)^2);
-				if dist < 3
+				if dist < 5
 					if point(k,1) > uu_2 && point(k,2) > vv_2 % left top
 						if dist < container_dist_1(k)
 							container_coor_1(k,1) = uu_2;
@@ -130,6 +137,7 @@ for i = 1:1:res_camera_h
 				end
 			end
 		end
+
 	end
 end
 for k=1:1:n*4
@@ -139,7 +147,7 @@ for k=1:1:n*4
 			(point(k,1) - container_coor_1(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_ori_4(k,1);
 		y_1 = (container_coor_4(k,1) - point(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_coor_1(k,2) + ...
 			(point(k,1) - container_coor_1(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_coor_4(k,2);
-		result_2 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(x,y,1) - container_coor_2(k,1)) * container_ori_2(k,1) + ...
+		result_2 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_2(k,1) + ...
 			(point(k,1) - container_coor_2(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_3(k,1);
 		y_2 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_coor_2(k,2) + ...
 			(point(k,1) - container_coor_2(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_coor_3(k,2);
@@ -150,7 +158,7 @@ for k=1:1:n*4
 			(point(k,1) - container_coor_1(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_ori_4(k,2);
 		y_1 = (container_coor_4(k,1) - point(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_coor_1(k,2) + ...
 			(point(k,1) - container_coor_1(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_coor_4(k,2);
-		result_2 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(x,y,1) - container_coor_2(k,1)) * container_ori_2(k,2) + ...
+		result_2 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_2(k,2) + ...
 			(point(k,1) - container_coor_2(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_3(k,2);
 		y_2 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_coor_2(k,2) + ...
 			(point(k,1) - container_coor_2(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_coor_3(k,2);
@@ -159,7 +167,7 @@ for k=1:1:n*4
 	end
 end
 
-fid = fopen('~/cnn/implementation/point_distance/build/speckle_points_ori_97.txt','w');
+fid = fopen('~/cnn/implementation/point_distance/build/triangle_test_speckle_novel_undistort_97.txt','w');
 for k = 1:1:n*4
 	if mod(k,4) == 0
 		fprintf(fid, '%f %f\n',point_ori(k,1),point_ori(k,2));
