@@ -1,10 +1,10 @@
 res_camera_w =1920;
 res_camera_h = 1080;
-n=57;
+n=1428;
 point = zeros(n*4,2);
 load('../result/train_1_1/speckle_map_test_1.mat');
 load('../result/train_2_1/speckle_map_test_2.mat');
-point_file = load('~/cnn/implementation/point_distance/build/triangle_test_ori_97.txt');
+point_file = load('~/cnn/implementation/point_distance/build/speckle_test_ori.txt');
 
 for i=1:n
     point(i*4-3,:) = point_file(i,1:2);
@@ -60,12 +60,6 @@ for i = 1:1:res_camera_h
 				if dist < 5
 					if point(k,1) > uu_1 && point(k,2) > vv_1 % left top
 						if dist < container_dist_1(k)
-if k == 1
-	uu_1
-	vv_1
-	j
-	i
-end
 							container_coor_1(k,1) = uu_1;
 							container_coor_1(k,2) = vv_1;
 							container_ori_1(k,1) = j;
@@ -143,31 +137,42 @@ end
 for k=1:1:n*4
 	if container_dist_1(k)<100 && container_dist_2(k)<100 && container_dist_3(k)<100 && container_dist_4(k)<100
 		% two bilinear interpolation
-		result_1 = (container_coor_4(k,1) - point(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_ori_1(k,1) + ...
-			(point(k,1) - container_coor_1(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_ori_4(k,1);
-		y_1 = (container_coor_4(k,1) - point(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_coor_1(k,2) + ...
-			(point(k,1) - container_coor_1(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_coor_4(k,2);
-		result_2 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_2(k,1) + ...
-			(point(k,1) - container_coor_2(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_3(k,1);
-		y_2 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_coor_2(k,2) + ...
-			(point(k,1) - container_coor_2(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_coor_3(k,2);
+		result_1 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(k,1) - container_coor_4(k,1)) * container_ori_4(k,1) + ...
+			(point(k,1) - container_coor_4(k,1))/(container_coor_3(k,1) - container_coor_4(k,1)) * container_ori_3(k,1);
+		y_2 = (container_coor_3(k,2) - point(k,2))/(container_coor_3(k,2) - container_coor_4(k,2)) * container_ori_4(k,2) + ...
+			(point(k,2) - container_coor_4(k,2))/(container_coor_3(k,2) - container_coor_4(k,2)) * container_ori_3(k,2);
+		result_2 = (container_coor_2(k,1) - point(k,1))/(container_coor_2(k,1) - container_coor_1(k,1)) * container_ori_1(k,1) + ...
+			(point(k,1) - container_coor_1(k,1))/(container_coor_2(k,1) - container_coor_1(k,1)) * container_ori_2(k,1);
+		y_1 = (container_coor_2(k,2) - point(k,2))/(container_coor_2(k,2) - container_coor_1(k,2)) * container_ori_1(k,2) + ...
+			(point(k,2) - container_coor_1(k,2))/(container_coor_2(k,2) - container_coor_1(k,2)) * container_ori_2(k,2);
 		result_value = (y_2 - point(k,2))/(y_2 - y_1) * result_1 + (point(k,2) - y_1)/(y_2 - y_1) * result_2;
 		point_ori(k,1) = result_value;
 
-		result_1 = (container_coor_4(k,1) - point(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_ori_1(k,2) + ...
-			(point(k,1) - container_coor_1(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_ori_4(k,2);
-		y_1 = (container_coor_4(k,1) - point(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_coor_1(k,2) + ...
-			(point(k,1) - container_coor_1(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_coor_4(k,2);
-		result_2 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_2(k,2) + ...
-			(point(k,1) - container_coor_2(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_3(k,2);
-		y_2 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_coor_2(k,2) + ...
-			(point(k,1) - container_coor_2(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_coor_3(k,2);
-		result_value = (y_2 - point(k,2))/(y_2 - y_1) * result_1 + (point(k,2) - y_1)/(y_2 - y_1) * result_2;
+		result_1 = (container_coor_4(k,2) - point(k,2))/(container_coor_4(k,2) - container_coor_1(k,2)) * container_ori_1(k,2) + ...
+			(point(k,2) - container_coor_1(k,2))/(container_coor_4(k,2) - container_coor_1(k,2)) * container_ori_4(k,2);
+		y_1 = (container_coor_4(k,1) - point(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_ori_1(k,1) + ...
+			(point(k,1) - container_coor_1(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_ori_4(k,1);
+		result_2 = (container_coor_3(k,2) - point(k,2))/(container_coor_3(k,2) - container_coor_2(k,2)) * container_ori_2(k,2) + ...
+			(point(k,2) - container_coor_2(k,2))/(container_coor_3(k,2) - container_coor_2(k,2)) * container_ori_3(k,2);
+		y_2 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_2(k,1) + ...
+			(point(k,1) - container_coor_2(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_3(k,1);
+		result_value = (y_2 - point(k,1))/(y_2 - y_1) * result_1 + (point(k,1) - y_1)/(y_2 - y_1) * result_2;
 		point_ori(k,2) = result_value;
+
+%		result_1 = (container_coor_4(k,1) - point(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_ori_1(k,2) + ...
+%			(point(k,1) - container_coor_1(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_ori_4(k,2);
+%		y_1 = (container_coor_4(k,1) - point(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_ori_1(k,2) + ...
+%			(point(k,1) - container_coor_1(k,1))/(container_coor_4(k,1) - container_coor_1(k,1)) * container_ori_4(k,2);
+%		result_2 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_2(k,2) + ...
+%			(point(k,1) - container_coor_2(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_3(k,2);
+%		y_2 = (container_coor_3(k,1) - point(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_2(k,2) + ...
+%			(point(k,1) - container_coor_2(k,1))/(container_coor_3(k,1) - container_coor_2(k,1)) * container_ori_3(k,2);
+%		result_value = (y_2 - point(k,2))/(y_2 - y_1) * result_1 + (point(k,2) - y_1)/(y_2 - y_1) * result_2;
+%		point_ori(k,2) = result_value;
 	end
 end
 
-fid = fopen('~/cnn/implementation/point_distance/build/triangle_test_speckle_novel_undistort_97.txt','w');
+fid = fopen('~/cnn/implementation/point_distance/build/speckle_test_speckle_novel_undistort.txt','w');
 for k = 1:1:n*4
 	if mod(k,4) == 0
 		fprintf(fid, '%f %f\n',point_ori(k,1),point_ori(k,2));
