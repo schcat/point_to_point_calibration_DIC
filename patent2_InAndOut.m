@@ -53,19 +53,20 @@ end
 fclose(fid);
 end
 
-if 1
+if 0
 [A, Rm] = fun_para_readtxt();
 end
 
 if 1
 parpool(20);
 COUNT = 0;
-%para = load('para_temp_2.txt');
-para=[Rm,A(1,1),A(1,3),A(2,2),A(2,3)];%�Ż��ڲ������������ƽ�ƾ��������ת�ǣ�
+para = load('../result/train_2_2_70_00675/para_temp_38.txt');
+%para=[Rm,A(1,1),A(1,3),A(2,2),A(2,3)];%�Ż��ڲ������������ƽ�ƾ��������ת�ǣ�
 %options = optimset('Algorithm','levenberg-marquardt','InitDamping',1e2,'Display','iter');
-options = optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt','FunctionTolerance',1e-10,'Display','iter');
+options = optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt','Display','iter');
 
 [x,nor,res,exitflag,output] = lsqnonlin( @fun_mapopt, para, [],[],options);
+fun_save_para(x, 6750);
 A=[x(n*6+1) 0 x(n*6+2); 0 x(n*6+3) x(n*6+4); 0,0,1];
 disp('map�����Ż������ڲ���Ϊ');
 disp(A);

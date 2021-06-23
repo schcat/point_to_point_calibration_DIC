@@ -52,7 +52,7 @@ radius = 70; %DIC subset radius
 spacing = 9;
 % ï¿½ï¿½ï¿?ROIï¿½ï¿½padï¿½Ð±ä»¯ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ncorr_auto_initseeds.mï¿½ï¿½ï¿½ï¿½ï¿?pad
 tic
-mat_name = ['../result/train_2_2_70/speckle_map_'];
+mat_name = ['../result/train_2_2_70_00675/speckle_map_'];
 parfor k=1:1:n
     filename_ref = ['simulate_speckle_patent_proj_',num2str(k),'.png'];
     filename_roi = ['ROI_proj_',num2str(k),'.png'];
@@ -69,7 +69,7 @@ plot_u_temp = zeros(res_camera_h,res_camera_w,n);
 plot_v_temp = zeros(res_camera_h,res_camera_w,n);
 %tic
 for k = 1:1:n
-    str=strcat('../result/train_2_2_70/speckle_map_',num2str(k),'.mat');
+    str=strcat('../result/train_2_2_70_00675/speckle_map_',num2str(k),'.mat');
     load(str);
     plot_u(:,:,k) = displacements.plot_u;
     plot_v(:,:,k) = displacements.plot_v;
@@ -116,7 +116,7 @@ for v_loc = 1:1:res_camera_h
             u_bias = plot_u(v_loc,u_loc,k);
             v_bias = plot_v(v_loc,u_loc,k);
 	    coef = plot_coef(v_loc, u_loc, k);
-            if (u_bias~=0 || v_bias~=0) && coef < 0.06
+            if (u_bias~=0 || v_bias~=0) && coef < 0.0675
 %            if u_bias~=0 || v_bias~=0
                 count = count+1;
                 bias_sum_u = bias_sum_u + u_bias;
@@ -130,7 +130,7 @@ for v_loc = 1:1:res_camera_h
         count_sum = count_sum + count;
     end
 end
-save(['../result/train_2_2_70/speckle_map.mat'],'mean_map_u','mean_map_v');
+save(['../result/train_2_2_70_00675/speckle_map.mat'],'mean_map_u','mean_map_v');
 
 res_bias = zeros(1,res_camera_h*res_camera_w*n/50);
 for v_loc = 10:10:res_camera_h
@@ -139,7 +139,7 @@ for v_loc = 10:10:res_camera_h
             u_bias = plot_u(v_loc,u_loc,k);
             v_bias = plot_v(v_loc,u_loc,k);
 	    coef = plot_coef(v_loc, u_loc, k);
-            if (u_bias~=0 || v_bias~=0) && coef < 0.06
+            if (u_bias~=0 || v_bias~=0) && coef < 0.0675
 %            if u_bias~=0 || v_bias~=0
                 res_bias(1,2*((v_loc*res_camera_w/10+u_loc)*n/10+k)-1) = u_bias - mean_map_u(v_loc,u_loc);
                 res_bias(1,2*((v_loc*res_camera_w/10+u_loc)*n/10+k)) = v_bias - mean_map_v(v_loc,u_loc);
