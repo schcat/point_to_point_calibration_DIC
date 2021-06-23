@@ -60,7 +60,7 @@ end
 if 1
 parpool(20);
 COUNT = 0;
-para = load('../result/train_2_2_70_00675/para_temp_38.txt');
+para = load('../reslut/train_2_2_70_00675/para_temp_38.txt');
 %para=[Rm,A(1,1),A(1,3),A(2,2),A(2,3)];%�Ż��ڲ������������ƽ�ƾ��������ת�ǣ�
 %options = optimset('Algorithm','levenberg-marquardt','InitDamping',1e2,'Display','iter');
 options = optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt','Display','iter');
