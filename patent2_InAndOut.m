@@ -8,7 +8,7 @@ n = 20;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                 �Ա�׼ͼƬ-����ͼƬ����DIC���?                                          %                           
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-if 0
+if 1
 height_ref = 1000;
 width_ref = 1000;
 pad = 100;
@@ -19,11 +19,11 @@ radius = num; %DIC subset radius
 spacing = 0;
 % ���?ROI��pad�б仯���ǵ���ncorr_auto_initseeds.m�����?pad
 
-mat_name = ['../result/train_2_2_70/speckle_'];
+mat_name = ['../result/train_2_3_70/speckle_'];
 tic
 parpool(20);
 parfor k=1:1:n
-    filename_cur = ['../image/train_2_2/cali_',num2str(k),'.png'];
+    filename_cur = ['../image/train_2_3/cali_',num2str(k),'.png'];
     displacements = fun_dic(pathname, filename_ref, filename_roi ,filename_cur, radius, spacing, mat_name, k);
 %    save(['results/ori_ref_mat/speckle_',num2str(k),'.mat'],'displacements');
 end
@@ -34,10 +34,10 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                 ��DIC���������ȡ���Ƶ�?                                              %                           
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-if 0
-fid = fopen(['../result/train_2_2_70/speckle_ori_2_2_',num2str(num),'.txt'],'w');
+if 1
+fid = fopen(['../result/train_2_3_70/speckle_ori_2_3_',num2str(num),'.txt'],'w');
 for k = 1:1:n
-    str=strcat('../result/train_2_2_70/speckle_',num2str(k),'.mat');
+    str=strcat('../result/train_2_3_70/speckle_',num2str(k),'.mat');
     load(str);
     for v_loc = 40:20:160
         for u_loc = 40:20:160
@@ -57,7 +57,7 @@ if 0
 [A, Rm] = fun_para_readtxt();
 end
 
-if 1
+if 0
 parpool(20);
 COUNT = 0;
 para = load('../reslut/train_2_2_70_00675/para_temp_38.txt');
