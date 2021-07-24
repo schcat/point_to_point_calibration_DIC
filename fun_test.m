@@ -9,9 +9,9 @@ para = load(file);
 
 res_camera_w =1920;
 res_camera_h = 1080;
-n=20;
+n=36;
 
-if 0
+if 1
 
 R=[];
 for i=1:n               %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
@@ -38,23 +38,23 @@ tic
 for k=1:1:n
     RT=R([(k-1)*3+1 : (k-1)*3+3],:);
     result = fun_projection(value, A, RT, k);
-    imwrite(mat2gray(result), ['../image_twi/train_2_2/simulate_speckle_patent_proj_test_',num2str(k),'.png']);
+    imwrite(mat2gray(result), ['../image/num_train_36/simulate_speckle_patent_proj_test_',num2str(k),'.png']);
 end
 roi = imread('../image/ROI_2000_2000_200.png');
 roi = roi(200:1800,200:1800);
 for k=1:1:n
     RT=R([(k-1)*3+1 : (k-1)*3+3],:);
     result = fun_projection(roi, A, RT, k);
-    imwrite(mat2gray(result), ['../image_twi/train_2_2/ROI_proj_test_',num2str(k),'.png']);
+    imwrite(mat2gray(result), ['../image/num_train_36/ROI_proj_test_',num2str(k),'.png']);
 end
 toc
 %DICï¿½ï¿½ï¿½ï¿½
-pathname = '../image_twi/train_2_2/';
+pathname = '../image/num_train_36/';
 radius = 70; %DIC subset radius
 spacing = 0;
 % ï¿½ï¿½ï¿?ROIï¿½ï¿½padï¿½?±ä»¯ï¿½ï¿½ï¿½?µï¿½ï¿½ï¿½ncorr_auto_initseeds.mï¿½ï¿½ï¿½ï¿½ï¿?pad
-parpool(20);
-mat_name = ['../result/train_2_2_70_0080/speckle_map_test_'];
+parpool(36);
+mat_name = ['../result/train_num_36/speckle_map_test_'];
 parfor k=1:1:n
 tic
     filename_ref = ['simulate_speckle_patent_proj_test_',num2str(k),'.png'];
@@ -67,14 +67,14 @@ end
 delete(gcp('nocreate'));
 end
 
-if 0 
+if 1 
 
 mean_map_u = zeros(res_camera_h,res_camera_w);
 mean_map_v = zeros(res_camera_h,res_camera_w);
 plot_u = zeros(res_camera_h,res_camera_w,n);
 plot_v = zeros(res_camera_h,res_camera_w,n);
 for k = 1:1:n
-    str=strcat('../result/train_2_2_70_0080/speckle_map_test_',num2str(k),'.mat');
+    str=strcat('../result/train_num_36/speckle_map_test_',num2str(k),'.mat');
     load(str);
     plot_u(:,:,k) = displacements.plot_u;
     plot_v(:,:,k) = displacements.plot_v;
@@ -117,21 +117,21 @@ for v_loc = 1:1:res_camera_h
         count_sum = count_sum + count;
     end
 end
-save(['../result/train_2_2_70_0080/speckle_map_test_70.mat'],'mean_map_u','mean_map_v');
+save(['../result/train_num_36/speckle_map_test_70.mat'],'mean_map_u','mean_map_v');
 
 plot_u = zeros(res_camera_h,res_camera_w);
 plot_v = zeros(res_camera_h,res_camera_w);
 %pathname = 'image/ori_0315/';
-load('../result/train_2_2_70_0080/speckle_map_test_70.mat');
+load('../result/train_num_36/speckle_map_test_70.mat');
 %imshow(mean_map_u);
 
 end
 
-if 0
+if 1
 
 %����У��
 for k=1:1:n
-    I = imread(['../image_twi/train_2_2/cali_',num2str(k),'.png']);
+    I = imread(['../image/num_train_36/cali_',num2str(k),'.png']);
     I_correct = zeros(res_camera_h,res_camera_w);
     for i = 1:1:res_camera_h
         for j = 1:1:res_camera_w
@@ -156,12 +156,12 @@ for k=1:1:n
         end
     end
 %    imshow(I_correct/max(I_correct(:)));
-    imwrite(I_correct/max(I_correct(:)), ['../image_twi/train_2_2/correct_',num2str(k),'.png']);
+    imwrite(I_correct/max(I_correct(:)), ['../image/num_train_36/correct_',num2str(k),'.png']);
 end
 
 end
 
-if 0
+if 1
 
 %��ȡ���Ƶ�
 height_ref = 1000;
@@ -174,20 +174,20 @@ radius = 70; %DIC subset radius
 spacing = 0;
 % ���?ROI��pad�б仯���ǵ���ncorr_auto_initseeds.m�����?pad
 
-parpool(20);
-mat_name = ['../result/train_2_2_70_0080/speckle_correct_'];
+parpool(36);
+mat_name = ['../result/train_num_36/speckle_correct_'];
 parfor k=1:1:n
 tic
-    filename_cur = ['train_2_2/correct_',num2str(k),'.png'];
+    filename_cur = ['num_train_36/correct_',num2str(k),'.png'];
     displacements = fun_dic(pathname, filename_ref, filename_roi ,filename_cur, radius, spacing, mat_name, k);
 %    save(['results/ori_ref_mat/speckle_correct_',num2str(k),'.mat'],'displacements');
 toc
 end
 delete(gcp('nocreate'));
 
-fid = fopen('../result/train_2_2_70_0080/speckle_correct.txt','w');
+fid = fopen('../result/train_num_36/speckle_correct.txt','w');
 for k = 1:1:n
-    str=strcat('../result/train_2_2_70_0080/speckle_correct_',num2str(k),'.mat');
+    str=strcat('../result/train_num_36/speckle_correct_',num2str(k),'.mat');
     load(str);
     for v_loc = 200:100:800
         for u_loc = 200:100:800
@@ -206,7 +206,7 @@ end
 
 M=load('board.txt');       %��ȡ��������
 M=[M';ones(1,49)];
-m_all=load('../result/train_2_2_70_0080/speckle_correct.txt');       %��ȡ�ؼ�������
+m_all=load('../result/train_num_36/speckle_correct.txt');       %��ȡ�ؼ�������
 m_one=ones(3,49,n);
 for i=1:1:n
     m_temp = m_all((i-1)*49+1:i*49,:);
