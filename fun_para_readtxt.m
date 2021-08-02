@@ -3,7 +3,7 @@ n = 20;
 % read world coordinate and key points coordinate
 M=load('board.txt');       % world coordinate
 M=[M';ones(1,49)];
-m_all=load('../result/train_2_2_70/speckle_ori_2_2_70.txt');       % key points coordinate
+m_all=load('../result/train_2_6/speckle_ori_70.txt');       % key points coordinate
 m_one=ones(3,49,n);
 for i=1:1:n
     m_temp = m_all((i-1)*49+1:i*49,:);
@@ -14,9 +14,9 @@ end
 % get external parameter matrix RT
 R=[];
 Rm=[];
-A = load('../result/train_2_2_70/para_k.txt');
-r_read = load('../result/train_2_2_70/para_r.txt');
-t_read = load('../result/train_2_2_70/para_t.txt');
+A = load('../result/train_2_6/para_k.txt');
+r_read = load('../result/train_2_6/para_r.txt');
+t_read = load('../result/train_2_6/para_t.txt');
 
 for i=1:n
     r_vect = r_read(i,:);
