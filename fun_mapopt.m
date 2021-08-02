@@ -11,7 +11,7 @@ end
 COUNT = COUNT + 1;
 res_camera_w = 1920;
 res_camera_h = 1080;
-n=20;
+n=36;
 R=[];
 for i=1:n               %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
       R_new=para([(i-1)*6+1 : (i-1)*6+6] );
@@ -48,7 +48,7 @@ end
 %toc
 %DICï¿½ï¿½ï¿½ï¿½
 pathname = '../image/train_2_6/';
-radius = 70; %DIC subset radius
+radius = 65; %DIC subset radius
 spacing = 9;
 % ï¿½ï¿½ï¿?ROIï¿½ï¿½padï¿½Ð±ä»¯ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ncorr_auto_initseeds.mï¿½ï¿½ï¿½ï¿½ï¿?pad
 tic

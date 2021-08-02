@@ -9,7 +9,7 @@ para = load(file);
 
 res_camera_w =1920;
 res_camera_h = 1080;
-n=20;
+n=36;
 
 if 1
 

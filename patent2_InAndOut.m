@@ -4,7 +4,7 @@ function  patent2_InAndOut
 %      ��V*b=0���?b����Ȼ����b�ֽ���ڲ�������?A�������?A�͵�Ӧ����������������
 global COUNT;
 num = 70;
-n = 20;
+n = 36;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                 �Ա�׼ͼƬ-����ͼƬ����DIC���?                                          %                           
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
@@ -21,7 +21,7 @@ spacing = 0;
 
 mat_name = ['../result/train_2_14/speckle_'];
 tic
-parpool(20);
+parpool(32);
 parfor k=1:1:n
     filename_cur = ['../image/train_2_14/cali_',num2str(k),'.png'];
     displacements = fun_dic(pathname, filename_ref, filename_roi ,filename_cur, radius, spacing, mat_name, k);
@@ -58,7 +58,7 @@ if 1
 end
 
 if 1
-parpool(20);
+parpool(36);
 COUNT = 0;
 %para = load('../result/train_num_28/para_temp_108.txt');
 para=[Rm,A(1,1),A(1,3),A(2,2),A(2,3)];%�Ż��ڲ������������ƽ�ƾ��������ת�ǣ�
