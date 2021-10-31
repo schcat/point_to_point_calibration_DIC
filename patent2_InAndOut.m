@@ -4,7 +4,7 @@ function  patent2_InAndOut
 %      ��V*b=0���?b����Ȼ����b�ֽ���ڲ�������?A�������?A�͵�Ӧ����������������
 global COUNT;
 num = 70;
-n = 20;
+n = 36;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                 �Ա�׼ͼƬ-����ͼƬ����DIC���?                                          %                           
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
@@ -19,11 +19,11 @@ radius = num; %DIC subset radius
 spacing = 0;
 % ���?ROI��pad�б仯���ǵ���ncorr_auto_initseeds.m�����?pad
 
-mat_name = ['../result/train_2_2_70/speckle_'];
+mat_name = ['../result/train_2_14/speckle_'];
 tic
-parpool(20);
+parpool(32);
 parfor k=1:1:n
-    filename_cur = ['../image/train_2_2/cali_',num2str(k),'.png'];
+    filename_cur = ['../image/train_2_14/cali_',num2str(k),'.png'];
     displacements = fun_dic(pathname, filename_ref, filename_roi ,filename_cur, radius, spacing, mat_name, k);
 %    save(['results/ori_ref_mat/speckle_',num2str(k),'.mat'],'displacements');
 end
@@ -35,9 +35,9 @@ end
 %                 ��DIC���������ȡ���Ƶ�?                                              %                           
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 if 0
-fid = fopen(['../result/train_2_2_70/speckle_ori_2_2_',num2str(num),'.txt'],'w');
+fid = fopen(['../result/train_2_14/speckle_ori_',num2str(num),'.txt'],'w');
 for k = 1:1:n
-    str=strcat('../result/train_2_2_70/speckle_',num2str(k),'.mat');
+    str=strcat('../result/train_2_14/speckle_',num2str(k),'.mat');
     load(str);
     for v_loc = 40:20:160
         for u_loc = 40:20:160
@@ -58,14 +58,15 @@ if 1
 end
 
 if 1
-parpool(20);
+parpool(36);
 COUNT = 0;
-%para = load('para_temp_2.txt');
+%para = load('../result/train_num_28/para_temp_108.txt');
 para=[Rm,A(1,1),A(1,3),A(2,2),A(2,3)];%�Ż��ڲ������������ƽ�ƾ��������ת�ǣ�
 %options = optimset('Algorithm','levenberg-marquardt','InitDamping',1e2,'Display','iter');
-options = optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt','FunctionTolerance',1e-10,'Display','iter');
+options = optimoptions(@lsqnonlin,'Algorithm','levenberg-marquardt','Display','iter');
 
 [x,nor,res,exitflag,output] = lsqnonlin( @fun_mapopt, para, [],[],options);
+fun_save_para(x, 13500);
 A=[x(n*6+1) 0 x(n*6+2); 0 x(n*6+3) x(n*6+4); 0,0,1];
 disp('map�����Ż������ڲ���Ϊ');
 disp(A);
@@ -73,6 +74,7 @@ res;
 exitflag;
 output;
 delete(gcp('nocreate'));
+fun_test(['para_temp_108.txt']);
 end
 if 0
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

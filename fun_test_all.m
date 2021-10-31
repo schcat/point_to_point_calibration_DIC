@@ -1,1 +1,1 @@
-fun_test(['../result/train_2_2_70/para_temp_10.txt']);
+fun_test(['para_temp_108.txt']);
