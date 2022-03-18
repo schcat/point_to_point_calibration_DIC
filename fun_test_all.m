@@ -1,1 +1,16 @@
-fun_test(['para_temp_108.txt']);
+fun_test(10);
+fun_test(12);
+fun_test(14);
+fun_test(16);
+fun_test(18);
+fun_test(20);
+fun_test(22);
+fun_test(24);
+fun_test(26);
+fun_test(28);
+fun_test(30);
+fun_test(32);
+fun_test(34);
+fun_test(36);
+fun_test(38);
+fun_test(40);

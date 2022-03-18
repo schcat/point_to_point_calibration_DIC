@@ -11,7 +11,7 @@ end
 COUNT = COUNT + 1;
 res_camera_w = 1920;
 res_camera_h = 1080;
-n=36;
+n=20;
 R=[];
 for i=1:n               %ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
       R_new=para([(i-1)*6+1 : (i-1)*6+6] );
@@ -36,23 +36,23 @@ value = value(200:1800,200:1800);
 parfor k=1:1:n
     RT=R([(k-1)*3+1 : (k-1)*3+3],:);
     result = fun_projection(value, A, RT, k);
-    imwrite(mat2gray(result), ['../image/train_2_6/simulate_speckle_patent_proj_',num2str(k),'.png']);
+    imwrite(mat2gray(result), ['../image/train_2_16/simulate_speckle_patent_proj_',num2str(k),'.png']);
 end
 roi = imread('../image/ROI_2000_2000_200.png');
 roi = roi(200:1800,200:1800);
 parfor k=1:1:n
     RT=R([(k-1)*3+1 : (k-1)*3+3],:);
     result = fun_projection(roi, A, RT, k);
-    imwrite(mat2gray(result), ['../image/train_2_6/ROI_proj_',num2str(k),'.png']);
+    imwrite(mat2gray(result), ['../image/train_2_16/ROI_proj_',num2str(k),'.png']);
 end
 %toc
 %DICï¿½ï¿½ï¿½ï¿½
-pathname = '../image/train_2_6/';
+pathname = '../image/train_2_16/';
 radius = 65; %DIC subset radius
 spacing = 9;
 % ï¿½ï¿½ï¿?ROIï¿½ï¿½padï¿½Ð±ä»¯ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ncorr_auto_initseeds.mï¿½ï¿½ï¿½ï¿½ï¿?pad
 tic
-mat_name = ['../result/train_2_6/speckle_map_'];
+mat_name = ['../result/train_2_16/speckle_map_'];
 parfor k=1:1:n
     filename_ref = ['simulate_speckle_patent_proj_',num2str(k),'.png'];
     filename_roi = ['ROI_proj_',num2str(k),'.png'];
@@ -69,7 +69,7 @@ plot_u_temp = zeros(res_camera_h,res_camera_w,n);
 plot_v_temp = zeros(res_camera_h,res_camera_w,n);
 %tic
 for k = 1:1:n
-    str=strcat('../result/train_2_6/speckle_map_',num2str(k),'.mat');
+    str=strcat('../result/train_2_16/speckle_map_',num2str(k),'.mat');
     load(str);
     plot_u(:,:,k) = displacements.plot_u;
     plot_v(:,:,k) = displacements.plot_v;
@@ -130,7 +130,7 @@ for v_loc = 1:1:res_camera_h
         count_sum = count_sum + count;
     end
 end
-save(['../result/train_2_6/speckle_map.mat'],'mean_map_u','mean_map_v');
+save(['../result/train_2_16/speckle_map.mat'],'mean_map_u','mean_map_v');
 
 res_bias = zeros(1,res_camera_h*res_camera_w*n/50);
 for v_loc = 10:10:res_camera_h
