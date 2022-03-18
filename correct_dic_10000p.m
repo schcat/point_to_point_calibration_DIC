@@ -1,10 +1,17 @@
 res_camera_w =1920;
 res_camera_h = 1080;
-n=1428;
+n=36030;
 point = zeros(n*4,2);
-load('../result/train_1_1/speckle_map_test_1.mat');
-load('../result/train_2_1/speckle_map_test_2.mat');
-point_file = load('~/cnn/implementation/point_distance/build/speckle_test_ori.txt');
+
+
+load('../result/point_to_point_calibration_DIC_result/train_1_2/speckle_map_test_70.mat');
+mean_map_u_1 = mean_map_u;
+mean_map_v_1 = mean_map_v;
+load('../result/point_to_point_calibration_DIC_result/train_2_2_stereo/speckle_map_test_70.mat');
+mean_map_u_2 = mean_map_u;
+mean_map_v_2 = mean_map_v;
+
+point_file = load('/home/wsco/cnn/calibration/camera_calibration_distance_calculate/build/applications/camera_calibration/points.txt');
 
 for i=1:n
     point(i*4-3,:) = point_file(i,1:2);
@@ -19,10 +26,10 @@ container_coor_2 = zeros(n*4,2);
 container_coor_3 = zeros(n*4,2);
 container_coor_4 = zeros(n*4,2);
 %整数像素最近邻像素欧氏距离
-container_dist_1 = ones(n*4)*100;
-container_dist_2 = ones(n*4)*100;
-container_dist_3 = ones(n*4)*100;
-container_dist_4 = ones(n*4)*100;
+container_dist_1 = ones(n*4,1)*100;
+container_dist_2 = ones(n*4,1)*100;
+container_dist_3 = ones(n*4,1)*100;
+container_dist_4 = ones(n*4,1)*100;
 %整数像素最近邻像素值
 container_ori_1 = ones(n*4,2)*500;
 container_ori_2 = ones(n*4,2)*500;
@@ -33,7 +40,8 @@ point_ori = zeros(n*4,2);
 
 for i = 1:1:res_camera_h
     for j = 1:1:res_camera_w
-
+	i
+	j
         u_bias_1 = mean_map_u_1(i,j);
         v_bias_1 = mean_map_v_1(i,j);
 
@@ -55,7 +63,7 @@ for i = 1:1:res_camera_h
 			vv_2 = i + v_bias_2;
 		end
 		for k=1:1:n*4
-			if mod(k,4) == 1 || mod(k,4) == 2
+			if mod(k,4) == 1 || mod(k,4) == 3
 				dist =  sqrt((point(k,1) - uu_1)^2 + (point(k,2) - vv_1)^2);
 				if dist < 5
 					if point(k,1) > uu_1 && point(k,2) > vv_1 % left top
@@ -92,7 +100,7 @@ for i = 1:1:res_camera_h
 						end
 					end
 				end
-			elseif mod(k,4) == 3 || mod(k,4) == 0
+			elseif mod(k,4) == 2 || mod(k,4) == 0
 				dist =  sqrt((point(k,1) - uu_2)^2 + (point(k,2) - vv_2)^2);
 				if dist < 5
 					if point(k,1) > uu_2 && point(k,2) > vv_2 % left top
@@ -172,7 +180,7 @@ for k=1:1:n*4
 	end
 end
 
-fid = fopen('~/cnn/implementation/point_distance/build/speckle_test_speckle_novel_undistort.txt','w');
+fid = fopen('/home/wsco/cnn/calibration/camera_calibration_distance_calculate/build/applications/camera_calibration/points_correct.txt','w');
 for k = 1:1:n*4
 	if mod(k,4) == 0
 		fprintf(fid, '%f %f\n',point_ori(k,1),point_ori(k,2));
